@@ -177,10 +177,10 @@ class Field {
     console.log("Difficulty: Please select between Easy, Medium or Hard!");
     let level = prompt().toLowerCase();                                           /* Prompt to allow player to select difficulty between Easy, Medium and Hard */
 
-    const difficultyChoice = {
-      easy: { rows: 10, cols: 10, holes: 3 },
-      medium: { rows: 13, cols: 13, holes: 15 },
-      hard: { rows: 15, cols: 15, holes: 30 },
+    const difficultyChoice = {                                                    /* Fixed rows and cols but holes are percentages of field size */
+      easy: { rows: 10, cols: 10, holes: Math.ceil(10 * 10 * 0.2) },
+      medium: { rows: 13, cols: 13, holes: Math.ceil(13 * 13 * 0.3) },
+      hard: { rows: 15, cols: 15, holes: Math.ceil(15 * 15 * 0.4) },
     };
 
     if (difficultyChoice[level]) {
