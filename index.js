@@ -19,11 +19,10 @@ const NOT_RECOGNISED = "Input not recognised.";                                 
 
 class Field {
   // constructor
-  constructor(rows, cols, holes) {
+  constructor(rows, cols) {
     this.rows = rows;
     this.cols = cols;
-    this.holes = holes;
-    this.field = new Array();                                                   /* Property that represents the field for game */
+    this.field = new Array([]);                                                 /* Property that represents the field for game */
     this.gamePlay = false;                                                      /* Property to setup the gameplay */
   }
 
@@ -47,8 +46,9 @@ class Field {
     }
                                                                                 // TODO THE NUMBER OF HOLES CREATED SHOULD PROVIDE SUFFICIENT CHALLENGE FOR THE GAME
     const avoid = [[0, 0], [0, 1], [1, 0], [1, 1]];                             /* Coordinates to avoid near the player's starting location */
+    const numOfHoles = Math.ceil(this.rows * this.cols * 0.2);                  /* Number of holes to be 20% of field size */
 
-    for (let h = 0; h < this.holes; h++) {                                      /* Loop the number of holes to be placed, and randomize their positions */
+    for (let h = 0; h < numOfHoles; h++) {                                      /* Loop the number of holes to be placed, and randomize their positions */
       let rowIndex = Math.floor(Math.random() * this.rows);
       let colIndex = Math.floor(Math.random() * this.cols);
                                                                                 // TODO THE HOLES SHOULD NOT BLOCK THE PLAYER FROM MOVING AT THE START OF THE GAME
@@ -79,7 +79,6 @@ class Field {
   // Start game method
   startGame() {
     this.gamePlay = true;
-    this.difficultyLevel();
     this.generateField(this.rows, this.cols);                                    /* Generate the field first */
     this.playerCurrentRow = 0;                                                   /* Current row index player is standing on at the start of game */
     this.playerCurrentCol = 0;                                                   /* Current col index player is standing on at the start of game */
@@ -171,34 +170,14 @@ class Field {
 
     console.log("player has moved: " + position);
   }
-
-  // Difficulty selection method
-  difficultyLevel() {                                                             /* Implemented difficulty level */
-    console.log("Difficulty: Please select between Easy, Medium or Hard!");
-    let level = prompt().toLowerCase();                                           /* Prompt to allow player to select difficulty between Easy, Medium and Hard */
-
-    const difficultyChoice = {
-      easy: { rows: 10, cols: 10, holes: 3 },
-      medium: { rows: 13, cols: 13, holes: 15 },
-      hard: { rows: 15, cols: 15, holes: 30 },
-    };
-
-    if (difficultyChoice[level]) {
-      this.rows = difficultyChoice[level].rows;
-      this.cols = difficultyChoice[level].cols;
-      this.holes = difficultyChoice[level].holes;
-    } else {
-      console.log("Invalid level/input. Default Easy mode selected.");
-      this.rows = difficultyChoice.easy.rows;
-      this.cols = difficultyChoice.easy.cols;
-      this.holes = difficultyChoice.easy.holes;
-    }
-  }
   
   // End of methods
 }
 
 Field.welcomeMsg(WELCOME);                                                        /* Static method to welcome the player */
 
-const field = new Field(10, 10);                                                  /* Declaring and creating an instance of Field class */
+const ROWS = 10;
+const COLS = 10;
+const field = new Field(ROWS, COLS);                                              /* Declaring and creating an instance of Field class */
+
 field.startGame();                                                                /* Start the game */
